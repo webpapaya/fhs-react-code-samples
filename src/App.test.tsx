@@ -1,9 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import {createStore} from "./Store";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+
+it('stores value', () => {
+  const useMyGlobalValue = createStore(() => ({
+    value: 0
+  }))
+
+  useMyGlobalValue.set((state) => ({ value: state.value + 1 }))
+  expect(useMyGlobalValue.get()).toEqual({ value: 1})
+})

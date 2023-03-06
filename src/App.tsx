@@ -1,24 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {create} from "./Store";
+
+const useValue = create(() => ({
+  value: 0
+}), [
+  (state) => console.log('stateChange', state)
+]);
+
+const Component1 = () => {
+  const [value] = useValue()
+  return <div>1: {value.value}</div>
+};
+
+const Component2 = () => {
+  const [value] = useValue()
+  return <div>2: {value.value}</div>
+};
+
+const Component3 = () => {
+  const [_, setValue] = useValue()
+  return (
+    <div onClick={() => setValue((value) => ({ value: value.value + 1 }))}>
+      Update
+    </div>
+  )
+};
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Component1 />
+      <Component2 />
+      <Component3 />
     </div>
   );
 }
