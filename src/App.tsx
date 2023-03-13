@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {useFormik} from "formik";
+import {object, string} from "yup";
 
 function useCounter() {
   const [count, setCount] = useState(0)
@@ -48,23 +50,32 @@ const sollZustand = [
     ]}
 ]
 
+const formValidations = object({
+  email: string()
+    .min(2)
+    .max(10)
+})
+
 const SignInForm = () => {
-  const [email, setEmail] = useState('')
+  const form = useFormik({
+    validationSchema: formValidations,
+    initialValues: {
+      email: ''
+    },
+    onSubmit: (evt) => console.log(evt)
+  })
 
   return (
-    <form>
+    <form onSubmit={form.handleSubmit}>
       <input
-        onChange={(evt) => setEmail(evt.target.value.slice(0, 5))}
+        name="email"
+        onChange={form.handleChange}
+        value={form.values.email}
         type="email"
-
       />
-      {
-        email.length === 0 && (
-          <div>
-            Email can't be blank
-          </div>
-        )
-      }
+      { form.errors.email && (
+        <span>{form.errors.email}</span>
+      )}
       <button type="submit">Sign in</button>
     </form>
   )
