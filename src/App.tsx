@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import {useFormik} from "formik";
 import {object, string} from "yup";
+import {createBrowserRouter, Link, RouterProvider} from "react-router-dom";
 
 function useCounter() {
   const [count, setCount] = useState(0)
@@ -31,6 +32,7 @@ const Page = () => {
     <div>
       <h1>{heading}</h1>
       <p onClick={() => setHeading('updated heading')}>some paragraph</p>
+      <Link to="/">go home</Link>
     </div>
   )
 }
@@ -66,6 +68,8 @@ const SignInForm = () => {
   })
 
   return (
+    <>
+
     <form onSubmit={form.handleSubmit}>
       <input
         name="email"
@@ -78,7 +82,29 @@ const SignInForm = () => {
       )}
       <button type="submit">Sign in</button>
     </form>
+      <Link to="/test">go to test</Link>
+    </>
   )
 }
 
-export default SignInForm;
+const router = createBrowserRouter([
+  { path: '/', element: <SignInForm /> },
+  { path: '/test', element: <Page /> },
+  {
+    path: '/nested-route',
+    children: [
+      {
+        path: "/child-route",
+        element: <Page />,
+      }
+    ]
+  }
+])
+
+const AppWithRouter = () => {
+  return (
+    <RouterProvider router={router} />
+  )
+}
+
+export default AppWithRouter;
