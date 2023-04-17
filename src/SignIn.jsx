@@ -6,7 +6,7 @@ export const SignIn = () => {
     const [signIn] = useSignInWithEmailAndPassword(auth)
 
     return (
-        <button onClick={() => signIn("thomas@mayrhofer.at", "test1234!&*")}>
+        <button onClick={() => signIn("thomas2@mayrhofer.at", "test1234!&*")}>
             sign in
         </button>
     )

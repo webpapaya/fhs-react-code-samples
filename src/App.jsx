@@ -5,6 +5,8 @@ import {SignIn} from "./SignIn";
 import { useAuthState } from 'react-firebase-hooks/auth'
 import {auth} from "./firebase";
 import {SignOut} from "./SignOut";
+import {MoneyTransactionCreate} from "./MoneyTransactionCreate";
+import {MoneyTransactionList} from "./MoneyTransactionList";
 
 function App() {
   const [user, loading] = useAuthState(auth)
@@ -15,11 +17,18 @@ function App() {
     <div className="App">
       <header className="App-header">
         {user?.email}
-          {signedIn && <SignOut />}
+          {signedIn && (
+              <>
+                  <SignOut />
+                  <MoneyTransactionCreate />
+                  <MoneyTransactionList />
+              </>
+          )}
           {!signedIn && (
               <>
                   <SignUp />
                   <SignIn />
+
               </>
           )}
       </header>
